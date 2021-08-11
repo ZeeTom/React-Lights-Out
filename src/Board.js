@@ -36,7 +36,7 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
     for (let i = 0; i < initialBoard.length; i++) {
       initialBoard[i] = Array.from({ length: ncols });
       initialBoard[i] = initialBoard[i].map(() =>
-        Math.random() < chanceLightStartsOn ? true : false
+        Math.random() < chanceLightStartsOn
       );
     }
     // console.log(initialBoard);
@@ -46,6 +46,7 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   function hasWon() {
     // TODO: check the board in state to determine whether the player has won.
     return board.flat().every((light) => light === false);
+    //ever().every()
   }
 
   function flipCellsAround(coord) {
@@ -61,13 +62,14 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
       };
 
       // TODO: Make a (deep) copy of the oldBoard
-      let newBoard = [...oldBoard];
+      let newBoard = oldBoard.map( (row) => [...row] );
+
       // TODO: in the copy, flip this cell and the cells around it
-      flipCell( y, x , newBoard)
-      flipCell( y+1, x , newBoard)
-      flipCell( y-1, x , newBoard)
-      flipCell( y, x+1 , newBoard)
-      flipCell( y, x-1 , newBoard)
+      flipCell( y, x , newBoard);
+      flipCell( y+1, x , newBoard);
+      flipCell( y-1, x , newBoard);
+      flipCell( y, x+1 , newBoard);
+      flipCell( y, x-1 , newBoard);
       // TODO: return the copy
       return newBoard
     });
@@ -79,10 +81,10 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   }
   // TODO
   // make table board
-  let tableRows = []
-
+  let tableRows = [];
+  //use y x since they are conventions instead of rowIndex, colIndex
   for (let [rowIndex, rows] of board.entries()) {
-    let row = []
+    let row = [];
     for (let [colIndex, cell] of rows.entries()) {
       row.push(<Cell flipCellsAroundMe={
         evt => flipCellsAround(`${rowIndex}-${colIndex}`)}
@@ -95,11 +97,10 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   return (<div className="Board">
     <table className="Board-table">
       <tbody className="Board-table-body">
-      {tableRows}
+        {tableRows}
       </tbody>
     </table>
   </div>);
-
   // TODO
 }
 
